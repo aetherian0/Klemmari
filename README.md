@@ -1,8 +1,12 @@
-# React + Vite
+# Klemmari
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+## Built with React + Vite
 
-Currently, two official plugins are available:
-
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+## How to run
+1. Install Node.js from the [official website](https://nodejs.org/en)
+2. Clone the repository on your local machine
+3. Run the following command on terminal
+```
+$ npm install
+```
+4. Start the website by writing ```npm run dev``` to the terminal
