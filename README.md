@@ -1,6 +1,7 @@
 # Klemmari
 
-## Built with React + Vite
+## Built with
+React + Vite
 
 ## How to run
 1. Install Node.js from the [official website](https://nodejs.org/en)
