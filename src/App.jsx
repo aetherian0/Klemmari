@@ -1,35 +1,25 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+import { Routes, Route, Link } from "react-router-dom";
+import Ohjelma1 from "./Ohjelma1";
+import Ohjelma2 from "./Ohjelma2";
+import Ohjelma3 from "./Ohjelma3";
+import "./App.css";
 
 function App() {
-  const [count, setCount] = useState(0)
+    return (
+        <div>
+            <nav>
+                <Link to="/Ohjelma1">Ohjelma 1</Link> |{" "}
+                <Link to="/Ohjelma2">Ohjelma 2</Link> |{" "}
+                <Link to="/Ohjelma3">Ohjelma 3</Link>
+            </nav>
 
-  return (
-    <>
-      <div>
-        <a href="https://vitejs.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.jsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-    </>
-  )
+            <Routes>
+                <Route path="/Ohjelma1" element={<Ohjelma1 />} />
+                <Route path="/Ohjelma2" element={<Ohjelma2 />} />
+                <Route path="/Ohjelma3" element={<Ohjelma3 />} />
+            </Routes>
+        </div>
+    );
 }
 
-export default App
+export default App;
