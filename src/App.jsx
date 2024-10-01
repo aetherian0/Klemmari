@@ -9,8 +9,6 @@ function Home() {
 }
 
 function App() {
-    document.title = "Klemmari";
-
     return (
         <div className="center">
             <nav>
