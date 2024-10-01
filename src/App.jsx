@@ -5,12 +5,14 @@ import Ohjelma3 from "./Ohjelma3";
 import "./App.css";
 
 function Home() {
-    return <h1>Welcome to the home page</h1>;
+    return <h1 className="center">Welcome to the home page</h1>;
 }
 
 function App() {
+    document.title = "Klemmari";
+
     return (
-        <div>
+        <div className="center">
             <nav>
                 <Link to="/">Home</Link> | <Link to="/Ohjelma1">Ohjelma 1</Link>{" "}
                 | <Link to="/Ohjelma2">Ohjelma 2</Link> |{" "}
