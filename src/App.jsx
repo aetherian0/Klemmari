@@ -5,16 +5,16 @@ import Ohjelma3 from "./Ohjelma3";
 import "./App.css";
 
 function Home() {
-    return <h1>MOI</h1>;
+    return <h1></h1>;
 }
 
 function App() {
     return (
         <div className="center">
             <nav>
-                <Link to="/">Home</Link> <Link to="/Ohjelma1">Ohjelma 1</Link>{" "}
-                <Link to="/Ohjelma2">Ohjelma 2</Link>{" "}
-                <Link to="/Ohjelma3">Ohjelma 3</Link>
+                <Link to="/">Home</Link> <Link to="/Ohjelma1">Veriarvot</Link>{" "}
+                <Link to="/Ohjelma2">Potilastiedot</Link>{" "}
+                <Link to="/Ohjelma3">Asetukset</Link>
             </nav>
 
             <Routes>

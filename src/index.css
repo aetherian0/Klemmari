@@ -1,8 +1,9 @@
 body {
-    font-family: Inter;
-    font-size: 30px;
+    font-family: Inter, sans-serif;
+    font-size: 25px;
     text-align: center;
-    margin: 0px;
-    padding: 0px;
-    background-color: rgb(228, 228, 228);
+    margin: 0;
+    padding: 0;
+    background-image: linear-gradient(to right, #0ac2a3, #20eba7);
+    color: #ffffff;
 }
