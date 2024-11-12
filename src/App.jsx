@@ -14,7 +14,7 @@ function App() {
             <nav>
                 <Link to="/">Home</Link> <Link to="/Ohjelma1">Veriarvot</Link>{" "}
                 <Link to="/Ohjelma2">Potilastiedot</Link>{" "}
-                <Link to="/Ohjelma3">Asetukset</Link>
+                <Link to="/Ohjelma3">Chattibotti</Link>
             </nav>
 
             <Routes>
