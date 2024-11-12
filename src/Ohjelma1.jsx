@@ -59,15 +59,22 @@ const rows = [
 function Ohjelma1() {
     return (
         <>
-            <div>
+            <div
+                style={{
+                    display: "flex",
+                    flexDirection: "column",
+                    alignItems: "center",
+                    justifyContent: "flex-start",
+                    height: "100vh",
+                    textAlign: "center",
+                }}
+            >
                 <h1>Veriarvot</h1>
-            </div>
 
-            <div>
                 <Box
                     sx={{
                         height: 400,
-                        width: "100%",
+                        width: "80%",
                     }}
                 >
                     <DataGrid
