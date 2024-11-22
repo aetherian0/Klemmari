@@ -28,6 +28,6 @@ function App() {
             </Routes>
         </div>
     );
-}
+npm}
 
 export default App;
