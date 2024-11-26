@@ -60,7 +60,7 @@ function ChatWindow() {
                 margin: "20px auto",
                 borderRadius: "20px",
                 overflow: "hidden",
-                boxShadow: "0 4px 8px rgba(0, 0, 0, 0.1)", // Optional: Adds a subtle shadow
+                boxShadow: "0 4px 8px rgba(0, 0, 0, 0.1)",
             }}
         >
             <MainContainer>
@@ -74,19 +74,19 @@ function ChatWindow() {
                                     backgroundColor:
                                         msg.sender === "AI Bot"
                                             ? "transparent"
-                                            : "#0084ff", // AI Bot message has no background
+                                            : "#0084ff",
                                     color:
                                         msg.sender === "AI Bot"
                                             ? "#333"
-                                            : "white", // Dark text for AI Bot, white text for user
+                                            : "white",
                                     alignSelf:
                                         msg.sender === "AI Bot"
                                             ? "flex-start"
-                                            : "flex-end", // Left for AI Bot, Right for user
-                                    borderRadius: "10px", // Rounded corners for messages
-                                    padding: "10px", // Padding for readability
-                                    maxWidth: "80%", // Max width of the message
-                                    wordBreak: "break-word", // Ensures long words break
+                                            : "flex-end",
+                                    borderRadius: "10px",
+                                    padding: "10px",
+                                    maxWidth: "80%",
+                                    wordBreak: "break-word",
                                 }}
                             />
                         ))}
@@ -96,7 +96,7 @@ function ChatWindow() {
                         onSend={handleSend}
                         style={{
                             borderRadius: "20px",
-                            marginTop: "10px", // Space between input and chat window
+                            marginTop: "10px",
                         }}
                     />
                 </ChatContainer>

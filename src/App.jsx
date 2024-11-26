@@ -3,10 +3,11 @@ import Veriarvot from "./Veriarvot";
 import Potilastiedot from "./Potilastiedot";
 import Chattibotti from "./Chattibotti";
 import Asetukset from "./Asetukset";
+import KayntiTiedot from "./KayntiTiedot";
 import "./App.css";
 
 function Home() {
-    return <h1></h1>;
+    return <h1>Home</h1>;
 }
 
 function App() {
@@ -25,9 +26,10 @@ function App() {
                 <Route path="/Potilastiedot" element={<Potilastiedot />} />
                 <Route path="/Chattibotti" element={<Chattibotti />} />
                 <Route path="/Asetukset" element={<Asetukset />} />
+                <Route path="/kaynti/:id" element={<KayntiTiedot />} />
             </Routes>
         </div>
     );
-npm}
+}
 
 export default App;
