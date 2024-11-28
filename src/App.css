@@ -1,5 +1,24 @@
 .center {
+    background-color: rgb(80, 80, 80);
+    height: 70px;
+}
+
+nav {
     display: flex;
-    flex-direction: column;
+    justify-content: left;
     align-items: center;
+    gap: 25px;
+    font-size: 1.2em;
+    margin-bottom: 40px;
+    padding-left: 15px;
+    padding-top: 25px;
+}
+
+a {
+    text-decoration: none;
+    color: rgb(219, 219, 219);
+}
+
+a:hover {
+    text-decoration: underline;
 }
