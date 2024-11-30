@@ -8,6 +8,7 @@ import {
     Message,
     MessageInput,
 } from "@chatscope/chat-ui-kit-react";
+import "./Chattibotti.css";
 
 function ChatWindow() {
     const [messages, setMessages] = useState([
@@ -54,13 +55,12 @@ function ChatWindow() {
     return (
         <div
             style={{
-                position: "relative",
                 height: "500px",
-                width: "400px",
+                width: "500px",
                 margin: "20px auto",
-                borderRadius: "20px",
-                overflow: "hidden",
-                boxShadow: "0 4px 8px rgba(0, 0, 0, 0.1)",
+                borderRadius: "20px", // Rounded corners for the entire chat window
+                overflow: "hidden", // Ensures content doesn't overflow the rounded corners
+                boxShadow: "0 4px 8px rgba(0, 0, 0, 0.1)", // Optional: adds a subtle shadow for better visual effect
             }}
         >
             <MainContainer>
@@ -71,22 +71,8 @@ function ChatWindow() {
                                 key={index}
                                 model={msg}
                                 style={{
-                                    backgroundColor:
-                                        msg.sender === "AI Bot"
-                                            ? "transparent"
-                                            : "#0084ff",
-                                    color:
-                                        msg.sender === "AI Bot"
-                                            ? "#333"
-                                            : "white",
-                                    alignSelf:
-                                        msg.sender === "AI Bot"
-                                            ? "flex-start"
-                                            : "flex-end",
-                                    borderRadius: "10px",
-                                    padding: "10px",
-                                    maxWidth: "80%",
-                                    wordBreak: "break-word",
+                                    borderRadius: "10px", // Rounded corners for each message
+                                    marginBottom: "10px", // Space between messages
                                 }}
                             />
                         ))}
@@ -95,7 +81,7 @@ function ChatWindow() {
                         placeholder="Type your message here"
                         onSend={handleSend}
                         style={{
-                            borderRadius: "20px",
+                            borderRadius: "20px", // Rounded corners for the input box
                             marginTop: "10px",
                         }}
                     />
