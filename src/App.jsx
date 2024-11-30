@@ -7,7 +7,9 @@ import KayntiTiedot from "./KayntiTiedot";
 import "./App.css";
 
 function Home() {
-    return <h1>Home</h1>;
+    let date = new Date().toLocaleDateString();
+
+    return <h1>Tervetuloa! Tänään on {date}</h1>;
 }
 
 function App() {
