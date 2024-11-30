@@ -1,7 +1,7 @@
 function Ohjelma4() {
     return (
         <div>
-            <h1>Tämä on ohjelman 4 sivu</h1>
+            <h1>Täältä voit muuttaa sivuston asetuksia</h1>
         </div>
     );
 }
