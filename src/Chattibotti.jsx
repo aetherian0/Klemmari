@@ -34,7 +34,7 @@ function ChatWindow() {
         const userMessage = {
             message: text,
             sentTime: new Date().toLocaleTimeString(),
-            sender: "You",
+            sender: "User",
         };
 
         setMessages((prevMessages) => [...prevMessages, userMessage]);
