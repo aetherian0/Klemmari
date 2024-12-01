@@ -17,14 +17,13 @@ nav {
 
 a {
     text-decoration: none;
-    color: inherit; /* Inherit color from theme */
+    color: inherit;
 }
 
 a:hover {
     text-decoration: underline;
 }
 
-/* Light Theme */
 body.light {
     background-color: white;
     color: black;
@@ -38,7 +37,6 @@ body.light nav a {
     color: black;
 }
 
-/* Dark Theme */
 body.dark {
     background-color: #121212;
     color: white;
