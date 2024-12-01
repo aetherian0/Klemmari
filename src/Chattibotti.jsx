@@ -1,4 +1,3 @@
-// src/ChatWindow.js
 import React, { useState } from "react";
 import "@chatscope/chat-ui-kit-styles/dist/default/styles.min.css";
 import {
@@ -19,48 +18,63 @@ function ChatWindow() {
         },
     ]);
 
-    // Function to simulate AI response (replace this with real API call later)
-    const getAIResponse = (userMessage) => {
-        // Simple AI simulation: responds with a predefined answer based on user input
-        if (userMessage.toLowerCase().includes("hello")) {
-            return "Hi there! How can I assist you today?";
-        }
-        return "I'm sorry, I didn't quite understand that. Could you please clarify?";
-    };
-
-    const handleSend = (text) => {
+    const handleSend = async (text) => {
         if (text.trim() === "") return;
 
-        // User's message
         const userMessage = {
             message: text,
             sentTime: new Date().toLocaleTimeString(),
             sender: "User",
         };
 
+        // Update the chat with the user's message
         setMessages((prevMessages) => [...prevMessages, userMessage]);
 
-        // Simulate AI response after a short delay
-        setTimeout(() => {
+        try {
+            // Send user input to the Flask API
+            const response = await fetch("http://localhost:5000/api/chat", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ message: text }),
+            });
+
+            const data = await response.json();
+
+            if (data.error) {
+                throw new Error(data.error);
+            }
+
             const aiMessage = {
-                message: getAIResponse(text),
+                message: data.response,
                 sentTime: new Date().toLocaleTimeString(),
                 sender: "AI Bot",
             };
 
+            // Update the chat with the AI's response
             setMessages((prevMessages) => [...prevMessages, aiMessage]);
-        }, 1000); // Simulating a 1-second delay for AI response
+        } catch (error) {
+            console.error("Error fetching AI response:", error);
+
+            // Display error message in chat
+            const errorMessage = {
+                message: "Sorry, something went wrong. Please try again later.",
+                sentTime: new Date().toLocaleTimeString(),
+                sender: "AI Bot",
+            };
+
+            setMessages((prevMessages) => [...prevMessages, errorMessage]);
+        }
     };
 
     return (
         <div
             style={{
-                height: "500px",
+                height: "600px",
                 width: "450px",
                 margin: "20px auto",
-                borderRadius: "20px", // Rounded corners for the entire chat window
-                overflow: "hidden", // Ensures content doesn't overflow the rounded corners
-                boxShadow: "0 4px 8px rgba(0, 0, 0, 0.1)", // Optional: adds a subtle shadow for better visual effect
+                borderRadius: "20px",
+                overflow: "hidden",
+                boxShadow: "0 4px 8px rgba(0, 0, 0, 0.1)",
             }}
         >
             <MainContainer>
@@ -71,8 +85,8 @@ function ChatWindow() {
                                 key={index}
                                 model={msg}
                                 style={{
-                                    borderRadius: "10px", // Rounded corners for each message
-                                    marginBottom: "10px", // Space between messages
+                                    borderRadius: "10px",
+                                    marginBottom: "10px",
                                 }}
                             />
                         ))}
@@ -81,7 +95,7 @@ function ChatWindow() {
                         placeholder="Type your message here"
                         onSend={handleSend}
                         style={{
-                            borderRadius: "20px", // Rounded corners for the input box
+                            borderRadius: "20px",
                             marginTop: "10px",
                         }}
                     />
