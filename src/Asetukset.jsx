@@ -1,5 +1,5 @@
 import { useEffect } from "react";
-import "./Asetukset.css";
+import "./App.css";
 
 function Asetukset({ language, setLanguage, setTheme }) {
     const currentTheme = localStorage.getItem("theme") || "light";
@@ -12,13 +12,13 @@ function Asetukset({ language, setLanguage, setTheme }) {
     const handleLanguageChange = (event) => {
         const newLanguage = event.target.value;
         setLanguage(newLanguage);
-        localStorage.setItem("language", newLanguage); // Persist the setting
+        localStorage.setItem("language", newLanguage);
     };
 
     const handleThemeChange = (event) => {
         const newTheme = event.target.value;
         setTheme(newTheme);
-        localStorage.setItem("theme", newTheme); // Persist the setting
+        localStorage.setItem("theme", newTheme);
     };
 
     return (

@@ -20,7 +20,6 @@ function Home({ language }) {
 }
 
 function App() {
-    // Language and Theme State
     const [language, setLanguage] = useState(
         localStorage.getItem("language") || "fi"
     );
@@ -28,7 +27,6 @@ function App() {
         localStorage.getItem("theme") || "light"
     );
 
-    // Apply theme and language on load
     useEffect(() => {
         document.body.classList.remove("light", "dark");
         document.body.classList.add(theme);
