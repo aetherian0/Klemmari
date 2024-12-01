@@ -3,7 +3,7 @@ import dotenv from "dotenv";
 
 dotenv.config();
 
-async function main() {
+export async function azure_api(userInput) {
     // Environment variables or fallback values
     const endpoint =
         process.env["AZURE_OPENAI_ENDPOINT"] ||
@@ -31,7 +31,7 @@ async function main() {
             },
             {
                 role: "user",
-                content: "What is the capital of France?", // Example user input
+                content: userInput, // Use the input passed from the user
             },
         ],
         max_tokens: 800,
@@ -50,8 +50,6 @@ async function main() {
         console.log("Choice message content:", choice.message.content);
         console.log("Choice message role:", choice.message.role); // This should now give the correct role
     }
-}
 
-main().catch((err) => {
-    console.error("The sample encountered an error:", err);
-});
+    return choice.message.content;
+}
