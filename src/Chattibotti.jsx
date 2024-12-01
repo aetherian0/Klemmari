@@ -56,7 +56,7 @@ function ChatWindow() {
         <div
             style={{
                 height: "500px",
-                width: "500px",
+                width: "450px",
                 margin: "20px auto",
                 borderRadius: "20px", // Rounded corners for the entire chat window
                 overflow: "hidden", // Ensures content doesn't overflow the rounded corners
