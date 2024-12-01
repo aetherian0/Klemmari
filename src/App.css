@@ -1,6 +1,7 @@
+/* Base styles for center and nav */
 .center {
-    background-color: rgb(80, 80, 80);
     height: 70px;
+    transition: background-color 0.3s ease, color 0.3s ease; /* Smooth transition */
 }
 
 nav {
@@ -16,9 +17,37 @@ nav {
 
 a {
     text-decoration: none;
-    color: rgb(219, 219, 219);
+    color: inherit; /* Inherit color from theme */
 }
 
 a:hover {
     text-decoration: underline;
+}
+
+/* Light Theme */
+body.light {
+    background-color: white;
+    color: black;
+}
+
+body.light .center {
+    background-color: rgb(220, 220, 220);
+}
+
+body.light nav a {
+    color: black;
+}
+
+/* Dark Theme */
+body.dark {
+    background-color: #121212;
+    color: white;
+}
+
+body.dark .center {
+    background-color: rgb(80, 80, 80);
+}
+
+body.dark nav a {
+    color: rgb(219, 219, 219);
 }
