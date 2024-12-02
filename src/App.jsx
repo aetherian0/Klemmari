@@ -9,7 +9,6 @@ import "./App.css";
 
 function Home({ language }) {
     let date = new Date().toLocaleDateString();
-
     return (
         <h1>
             {language === "fi"
@@ -30,10 +29,11 @@ function App() {
     useEffect(() => {
         document.body.classList.remove("light", "dark");
         document.body.classList.add(theme);
+        localStorage.setItem("theme", theme);
     }, [theme]);
 
     return (
-        <div className="center">
+        <div className={`center ${theme}`}>
             <nav>
                 <Link to="/">{language === "fi" ? "Koti" : "Home"}</Link>
                 <Link to="/Veriarvot">
@@ -70,6 +70,7 @@ function App() {
                         <Asetukset
                             language={language}
                             setLanguage={setLanguage}
+                            theme={theme}
                             setTheme={setTheme}
                         />
                     }
