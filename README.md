@@ -6,11 +6,15 @@
 ## How to Run
 1. Install the latest LTS version of Node.js from the [official website](https://nodejs.org/en).
 2. Clone the repository to your local machine
-3. Navigate to the project directory and install the dependencies:
+3. Navigate to the project directory and install the dependencies for the frontend:
     ```bash
     npm install
     ```
-4. Start the development server by running:
+4. Install the Python dependencies:
+   ```bash
+   pip install -r requirements.txt
+   ```
+6. Start the development server by running:
     ```bash
     npm run dev
     ```
