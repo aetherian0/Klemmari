@@ -14,10 +14,14 @@
    ```bash
    pip install -r requirements.txt
    ```
-6. Start the development server by running:
+6. Start the Vite development server:
     ```bash
     npm run dev
     ```
+7. Open another terminal and navigate to the backend directory (if necessary) to start the Python backend:
+   ```bash
+    python src/ownData.py
+   ```
 
 ## About the Website
 Klemmari is a web application designed to simulate a patient information system. The website features an AI-powered chatbot that helps users by answering questions and providing assistance with navigating the site. The AI is powered by the GPT-3.5 Turbo model and is built using a **Retrieval-Augmented Generation (RAG)** architecture, which enhances its ability to retrieve relevant information and generate contextually appropriate responses.
