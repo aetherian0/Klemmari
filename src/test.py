@@ -27,19 +27,23 @@ for var in required_vars:
     if not os.getenv(var):
         raise EnvironmentError(f"Missing required environment variable: {var}")
 
-# Initialize the Azure OpenAI client using the API key (no bearer token required)
+# Initialize the Azure OpenAI client using the API key
 client = AzureOpenAI(
     azure_endpoint=azure_oai_endpoint,  # Azure OpenAI endpoint from environment variable
     api_key=azure_oai_key,  # API key for Azure OpenAI authentication
     api_version="2024-05-01-preview"
 )
 
+user_input = input("Write your question here: ")
+
 # Define the conversation and extra body for Azure Cognitive Search integration
 completion = client.chat.completions.create(
     model=azure_oai_deployment,
-    messages=[
-        {"role": "system", "content": "You are an AI assistant that helps people find information and answer mathematical questions. Use the provided content to answer questions when relevant."},
-        {"role": "user", "content": "Tell me 1 important thing when moving to Helsinki"}
+    max_tokens=500,
+    temperature=0.7,
+    messages = [
+    {"role": "system", "content": "You are an AI assistant capable of solving simple mathematical operations (like addition, subtraction, multiplication, etc.) directly, as well as providing information based on available data."},
+    {"role": "user", "content": user_input}
     ],
     extra_body={
         "data_sources": [
@@ -60,27 +64,3 @@ completion = client.chat.completions.create(
 
 # Output the response in a readable format
 print(completion.model_dump_json(indent=2))
-
-# Render the citations if available
-content = completion.choices[0].message.content
-context = completion.choices[0].message.context
-
-for citation_index, citation in enumerate(context.get("citations", [])):
-    citation_reference = f"[doc{citation_index + 1}]"
-    
-    # Check if 'url' is None, and handle it
-    url = citation.get("url", None)
-    if url is None:
-        url = "#"  # Default value if URL is None, or you can choose a fallback URL
-
-    filepath = citation.get("filepath", "Unknown file")  # Default to 'Unknown file' if filepath is missing
-    title = citation.get("title", "No title")  # Default to 'No title' if title is missing
-    snippet = citation.get("content", "No content")  # Default to 'No content' if content is missing
-    chunk_id = citation.get("chunk_id", "Unknown part")  # Default to 'Unknown part' if chunk_id is missing
-
-    # Safely replace the citation reference with HTML
-    replaced_html = f"<a href='{url}' title='{title}\n{snippet}'>(See from file {filepath}, Part {chunk_id})</a>"
-    content = content.replace(citation_reference, replaced_html)
-
-# Print final content
-print(content)
