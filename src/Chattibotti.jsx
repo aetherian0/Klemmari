@@ -7,6 +7,8 @@ import {
     Message,
     MessageInput,
 } from "@chatscope/chat-ui-kit-react";
+import FormControlLabel from "@mui/material/FormControlLabel";
+import Checkbox from "@mui/material/Checkbox";
 import "./Chattibotti.css";
 
 function ChatWindow() {
@@ -17,6 +19,14 @@ function ChatWindow() {
             sender: "AI Bot",
         },
     ]);
+
+    // Tracks the status of the checkbox
+    const [isChecked, setIsChecked] = useState(true);
+
+    // Change the value of isChecked
+    const handleCheckBoxChange = (event) => {
+        setIsChecked(event.target.checked);
+    };
 
     const handleSend = async (text) => {
         if (text.trim() === "") return;
@@ -35,7 +45,7 @@ function ChatWindow() {
             const response = await fetch("http://localhost:5000/api/chat", {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
-                body: JSON.stringify({ message: text }),
+                body: JSON.stringify({ message: text, usePdfData: isChecked }),
             });
 
             const data = await response.json();
@@ -67,41 +77,53 @@ function ChatWindow() {
     };
 
     return (
-        <div
-            style={{
-                height: "600px",
-                width: "450px",
-                margin: "20px auto",
-                borderRadius: "20px",
-                overflow: "hidden",
-                boxShadow: "0 4px 8px rgba(0, 0, 0, 0.1)",
-            }}
-        >
-            <MainContainer>
-                <ChatContainer>
-                    <MessageList>
-                        {messages.map((msg, index) => (
-                            <Message
-                                key={index}
-                                model={msg}
-                                style={{
-                                    borderRadius: "10px",
-                                    marginBottom: "10px",
-                                }}
-                            />
-                        ))}
-                    </MessageList>
-                    <MessageInput
-                        placeholder="Type your message here"
-                        onSend={handleSend}
-                        style={{
-                            borderRadius: "20px",
-                            marginTop: "10px",
-                        }}
+        <>
+            <div
+                style={{
+                    height: "600px",
+                    width: "450px",
+                    margin: "20px auto",
+                    borderRadius: "20px",
+                    overflow: "hidden",
+                    boxShadow: "0 4px 8px rgba(0, 0, 0, 0.1)",
+                }}
+            >
+                <MainContainer>
+                    <ChatContainer>
+                        <MessageList>
+                            {messages.map((msg, index) => (
+                                <Message
+                                    key={index}
+                                    model={msg}
+                                    style={{
+                                        borderRadius: "10px",
+                                        marginBottom: "10px",
+                                    }}
+                                />
+                            ))}
+                        </MessageList>
+                        <MessageInput
+                            placeholder="Type your message here"
+                            onSend={handleSend}
+                            style={{
+                                borderRadius: "20px",
+                                marginTop: "10px",
+                            }}
+                        />
+                    </ChatContainer>
+                </MainContainer>
+            </div>
+
+            <FormControlLabel
+                control={
+                    <Checkbox
+                        checked={isChecked}
+                        onChange={handleCheckBoxChange}
                     />
-                </ChatContainer>
-            </MainContainer>
-        </div>
+                }
+                label="Use PDF data"
+            />
+        </>
     );
 }
 
