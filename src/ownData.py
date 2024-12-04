@@ -85,7 +85,7 @@ def chat():
         #print(response)
 
         # Print token usage
-        print(f"Tokens used: {response.usage.total_tokens}")
+        print(f"Tokens used: {response.usage.total_tokens}\nUse PDF data: {USE_OWN_DATA}")
 
         # Ensure that the response has 'choices' and the message content
         if response and hasattr(response, 'choices') and len(response.choices) > 0:
