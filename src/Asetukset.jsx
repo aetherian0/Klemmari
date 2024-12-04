@@ -1,24 +1,19 @@
 import { useEffect } from "react";
 import "./App.css";
-
-function Asetukset({ language, setLanguage, setTheme }) {
-    const currentTheme = localStorage.getItem("theme") || "light";
-
+function Asetukset({ language, setLanguage, theme, setTheme }) {
     useEffect(() => {
         localStorage.setItem("language", language);
-        localStorage.setItem("theme", currentTheme);
-    }, [language, currentTheme]);
+        localStorage.setItem("theme", theme);
+    }, [language, theme]);
 
     const handleLanguageChange = (event) => {
         const newLanguage = event.target.value;
         setLanguage(newLanguage);
-        localStorage.setItem("language", newLanguage);
     };
 
     const handleThemeChange = (event) => {
         const newTheme = event.target.value;
         setTheme(newTheme);
-        localStorage.setItem("theme", newTheme);
     };
 
     return (
@@ -39,7 +34,7 @@ function Asetukset({ language, setLanguage, setTheme }) {
                 <label>
                     {language === "fi" ? "Valitse teema:" : "Select Theme:"}
                 </label>
-                <select value={currentTheme} onChange={handleThemeChange}>
+                <select value={theme} onChange={handleThemeChange}>
                     <option value="light">
                         {language === "fi" ? "Vaalea" : "Light"}
                     </option>
