@@ -9,6 +9,7 @@ app = Flask(__name__)
 # Allow only requests from frontend (http://localhost:5173)
 CORS(app, origins="http://localhost:5173")
 
+
 @app.route("/api/chat", methods=["POST"])
 def chat():
     try:
@@ -41,36 +42,45 @@ def chat():
         client = AzureOpenAI(
             azure_endpoint=azure_oai_endpoint,  # Azure OpenAI endpoint from environment variable
             api_key=azure_oai_key,  # API key for Azure OpenAI authentication
-            api_version="2024-05-01-preview"
+            api_version="2024-05-01-preview",
         )
 
         # Parse the user's question from the request
         data = request.get_json()
-        text = data.get("message", "") # Get the message from the request
-        USE_OWN_DATA = data.get("usePdfData", False) # Flag to check if using custom data
+        text = data.get("message", "")  # Get the message from the request
+        USE_OWN_DATA = data.get(
+            "usePdfData", False
+        )  # Flag to check if using custom data
 
         # Define the base messages
         messages = [
-            {"role": "system", "content": "You are an AI assistant capable of solving simple mathematical operations (like addition, subtraction, multiplication, etc.) directly, as well as providing information based on available data. Answer with the same language as the question is asked with."},
-            {"role": "user", "content": text} # User input
+            {
+                "role": "system",
+                "content": "You are an AI assistant capable of solving simple mathematical operations (like addition, subtraction, multiplication, etc.) directly, as well as providing information based on available data. Answer with the same language as the question is asked with.",
+            },
+            {"role": "user", "content": text},  # User input
         ]
 
         # Define the extra_body for Azure Cognitive Search if using own data
-        extra_body = {
-            "data_sources": [
-                {
-                    "type": "azure_search",
-                    "parameters": {
-                        "endpoint": azure_search_endpoint,
-                        "index_name": azure_search_index,
-                        "authentication": {
-                            "type": "api_key",  # Using the API key for authentication in Azure Search
-                            "key": azure_search_key  # Azure Cognitive Search API key
-                        }
+        extra_body = (
+            {
+                "data_sources": [
+                    {
+                        "type": "azure_search",
+                        "parameters": {
+                            "endpoint": azure_search_endpoint,
+                            "index_name": azure_search_index,
+                            "authentication": {
+                                "type": "api_key",  # Using the API key for authentication in Azure Search
+                                "key": azure_search_key,  # Azure Cognitive Search API key
+                            },
+                        },
                     }
-                }
-            ]
-        } if USE_OWN_DATA else None
+                ]
+            }
+            if USE_OWN_DATA
+            else None
+        )
 
         # Make the API call
         response = client.chat.completions.create(
@@ -78,17 +88,19 @@ def chat():
             max_tokens=500,
             temperature=0.7,
             messages=messages,
-            extra_body=extra_body  # Include extra_body only if USE_OWN_DATA is True
+            extra_body=extra_body,  # Include extra_body only if USE_OWN_DATA is True
         )
 
         # Print full response
-        #print(response)
+        # print(response)
 
         # Print token usage
-        print(f"Tokens used: {response.usage.total_tokens}\nUse PDF data: {USE_OWN_DATA}")
+        print(
+            f"Tokens used: {response.usage.total_tokens}\nUse PDF data: {USE_OWN_DATA}"
+        )
 
         # Ensure that the response has 'choices' and the message content
-        if response and hasattr(response, 'choices') and len(response.choices) > 0:
+        if response and hasattr(response, "choices") and len(response.choices) > 0:
             # Access the first choice and then the message content
             ai_response = response.choices[0].message.content
         else:
@@ -98,6 +110,7 @@ def chat():
 
     except Exception as ex:
         return jsonify({"error": str(ex)}), 500
+
 
 if __name__ == "__main__":
     app.run(host="127.0.0.1", port=5000)
