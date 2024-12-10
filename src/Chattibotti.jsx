@@ -11,7 +11,7 @@ import FormControlLabel from "@mui/material/FormControlLabel";
 import Checkbox from "@mui/material/Checkbox";
 import "./Chattibotti.css";
 
-function ChatWindow({ language }) {
+function ChatWindow({ language, theme, setTheme }) {
     const [messages, setMessages] = useState([
         {
             message:
@@ -40,11 +40,9 @@ function ChatWindow({ language }) {
             sender: "User",
         };
 
-        // Update the chat with the user's message
         setMessages((prevMessages) => [...prevMessages, userMessage]);
 
         try {
-            // Send user input to the Flask API
             const response = await fetch("http://localhost:5000/api/chat", {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
@@ -53,22 +51,24 @@ function ChatWindow({ language }) {
 
             const data = await response.json();
 
-            if (data.error) {
-                throw new Error(data.error);
+            // logging
+            console.log(data);
+
+            if (data.action === "toggle_theme" && data.theme) {
+                // Trigger the theme toggle function
+                setTheme(data.theme);
             }
 
             const aiMessage = {
-                message: data.response,
+                message: data.response || "Action performed successfully.",
                 sentTime: new Date().toLocaleTimeString(),
                 sender: "AI Bot",
             };
 
-            // Update the chat with the AI's response
             setMessages((prevMessages) => [...prevMessages, aiMessage]);
         } catch (error) {
             console.error("Error fetching AI response:", error);
 
-            // Display error message in chat
             const errorMessage = {
                 message: "Sorry, something went wrong. Please try again later.",
                 sentTime: new Date().toLocaleTimeString(),
