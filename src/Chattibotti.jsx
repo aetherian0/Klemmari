@@ -51,7 +51,7 @@ function ChatWindow({ language, theme, setTheme }) {
 
             const data = await response.json();
 
-            // logging
+            // Logging
             console.log(data);
 
             if (data.action === "toggle_theme" && data.theme) {
