@@ -1,5 +1,6 @@
 import { useEffect } from "react";
 import "./App.css";
+
 function Asetukset({ language, setLanguage, theme, setTheme }) {
     useEffect(() => {
         localStorage.setItem("language", language);
