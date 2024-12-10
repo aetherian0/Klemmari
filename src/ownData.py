@@ -100,9 +100,6 @@ def chat():
             f"Tokens used: {response.usage.total_tokens}\nUse PDF data: {USE_OWN_DATA}"
         )
 
-        # Print the response
-        print(response.choices[0].message.content)
-
         ai_response = response.choices[0].message.content
 
         import json
