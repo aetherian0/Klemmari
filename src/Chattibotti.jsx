@@ -11,17 +11,20 @@ import FormControlLabel from "@mui/material/FormControlLabel";
 import Checkbox from "@mui/material/Checkbox";
 import "./Chattibotti.css";
 
-function ChatWindow() {
+function ChatWindow({ language }) {
     const [messages, setMessages] = useState([
         {
-            message: "Hello! How can I help you today?",
+            message:
+                language === "fi"
+                    ? "Hei! Miten voin auttaa?"
+                    : "Hello! How can I help you today?",
             sentTime: "just now",
             sender: "AI Bot",
         },
     ]);
 
     // Tracks the status of the checkbox
-    const [isChecked, setIsChecked] = useState(true);
+    const [isChecked, setIsChecked] = useState(false);
 
     // Change the value of isChecked
     const handleCheckBoxChange = (event) => {
