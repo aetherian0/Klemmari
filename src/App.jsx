@@ -62,7 +62,13 @@ function App() {
                 />
                 <Route
                     path="/Chattibotti"
-                    element={<Chattibotti language={language} />}
+                    element={
+                        <Chattibotti
+                            language={language}
+                            theme={theme}
+                            setTheme={setTheme}
+                        />
+                    }
                 />
                 <Route
                     path="/Asetukset"
