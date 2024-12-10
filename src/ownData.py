@@ -2,7 +2,7 @@ from flask import Flask, request, jsonify
 import os
 from dotenv import load_dotenv
 from openai import AzureOpenAI
-from flask_cors import CORS  # Import CORS
+from flask_cors import CORS
 import json
 
 app = Flask(__name__)
@@ -96,37 +96,25 @@ def chat():
             extra_body=extra_body,  # Include extra_body only if USE_OWN_DATA is True
         )
 
-        # Print token usage
+        # Log token usage
         print(
             f"Tokens used: {response.usage.total_tokens}\nUse PDF data: {USE_OWN_DATA}"
         )
 
-        # Get the raw response from the AI model
-        ai_response = response.choices[0].message.content
-        print(f"AI Response (raw): {ai_response}")
-        print(f"AI Response Type: {type(ai_response)}")
-
-        # Check if the response is a numeric string and convert it to a number
-        if isinstance(ai_response, str) and ai_response.isdigit():
-            ai_response = int(ai_response)  # Convert to integer if it's a whole number
-
-        # If the response is a float or an integer, return it directly
-        if isinstance(ai_response, (int, float)):
-            return jsonify({"response": ai_response})
-
-        # Try parsing the response if it's a string
-        if isinstance(ai_response, str):
+        # Ensure that the response has 'choices' and the message content
+        if response and hasattr(response, "choices") and len(response.choices) > 0:
+            # Access the first choice and then the message content
+            ai_response = response.choices[0].message.content
             try:
                 parsed_response = json.loads(ai_response)
-                # If parsed response has an 'action' key, handle it
                 if "action" in parsed_response:
                     return jsonify(parsed_response)
-            except json.JSONDecodeError:
-                # If it's not valid JSON, return it as plain text
-                return jsonify({"response": ai_response})
+            except Exception as ex:
+                print(ex)
+        else:
+            ai_response = "I'm sorry, I couldn't retrieve a valid response."
 
-        # Fallback if the response is neither numeric nor valid JSON
-        return jsonify({"response": "Unexpected response format."})
+        return jsonify({"response": ai_response})
 
     except Exception as ex:
         return jsonify({"error": str(ex)}), 500
