@@ -56,7 +56,11 @@ def chat():
         messages = [
             {
                 "role": "system",
-                "content": "You are an AI assistant capable of solving simple mathematical operations (like addition, subtraction, multiplication, etc.) directly, as well as providing information based on available data. Answer with the same language as the question is asked with.",
+                "content": "You are an AI assistant. If a user's request requires an action, "
+                "always respond with a JSON object in the following format:\n"
+                '{\n  "action": "toggle_theme",\n  "theme": "light" or "dark"\n}\n'
+                "Ensure the keys and values exactly match this format. Do not include any extra text, comments, or explanations. "
+                "If the user's request does not require an action, respond only with plain text.",
             },
             {"role": "user", "content": text},  # User input
         ]
@@ -91,21 +95,37 @@ def chat():
             extra_body=extra_body,  # Include extra_body only if USE_OWN_DATA is True
         )
 
-        # Print full response
-        # print(response)
-
         # Print token usage
         print(
             f"Tokens used: {response.usage.total_tokens}\nUse PDF data: {USE_OWN_DATA}"
         )
 
-        # Ensure that the response has 'choices' and the message content
-        if response and hasattr(response, "choices") and len(response.choices) > 0:
-            # Access the first choice and then the message content
-            ai_response = response.choices[0].message.content
-        else:
-            ai_response = "I'm sorry, I couldn't retrieve a valid response."
+        # Print the response
+        print(response.choices[0].message.content)
 
+        ai_response = response.choices[0].message.content
+
+        import json
+
+        # Parse and handle JSON response
+        try:
+            parsed_response = json.loads(ai_response)
+            if "action" in parsed_response:
+                return jsonify(parsed_response)
+        except json.JSONDecodeError:
+            # Attempt to extract JSON content using regex
+            import re
+
+            match = re.search(r"\{.*\}", ai_response, re.DOTALL)
+            if match:
+                try:
+                    parsed_response = json.loads(match.group())
+                    if "action" in parsed_response:
+                        return jsonify(parsed_response)
+                except json.JSONDecodeError:
+                    pass
+
+        # Fallback for plain-text responses
         return jsonify({"response": ai_response})
 
     except Exception as ex:
