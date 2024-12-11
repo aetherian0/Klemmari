@@ -61,7 +61,8 @@ def chat():
                 "always respond with a JSON object in the following format:\n"
                 '{\n  "action": "toggle_theme",\n  "theme": "light" or "dark"\n}\n'
                 "Ensure the keys and values exactly match this format. Do not include any extra text, comments, or explanations. "
-                "If the user's request does not require an action, respond only with plain text.",
+                "If the user's request does not require an action, respond only with plain text."
+                "Answer with the same language as the question is asked.",
             },
             {"role": "user", "content": text},  # User input
         ]
