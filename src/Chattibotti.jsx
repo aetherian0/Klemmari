@@ -11,7 +11,7 @@ import FormControlLabel from "@mui/material/FormControlLabel";
 import Checkbox from "@mui/material/Checkbox";
 import "./Chattibotti.css";
 
-function ChatWindow({ language, theme, setTheme }) {
+function ChatWindow({ language, setLanguage, theme, setTheme }) {
     const [messages, setMessages] = useState([
         {
             message:
@@ -57,6 +57,11 @@ function ChatWindow({ language, theme, setTheme }) {
             if (data.action === "toggle_theme" && data.theme) {
                 // Trigger the theme toggle function
                 setTheme(data.theme);
+            }
+
+            if (data.action === "toggle_language" && data.language) {
+                // Trigger the language toggle function
+                setLanguage(data.language);
             }
 
             const aiMessage = {
@@ -124,7 +129,7 @@ function ChatWindow({ language, theme, setTheme }) {
                         onChange={handleCheckBoxChange}
                     />
                 }
-                label="Use PDF data"
+                label={language === "fi" ? "Käytä PDF dataa" : "Use PDF data"}
             />
         </>
     );
