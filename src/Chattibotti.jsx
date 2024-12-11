@@ -65,7 +65,11 @@ function ChatWindow({ language, setLanguage, theme, setTheme }) {
             }
 
             const aiMessage = {
-                message: data.response || "Action performed successfully.",
+                message:
+                    data.response ||
+                    (language === "fi"
+                        ? "Toiminto suoritettu onnistuneesti."
+                        : "Action performed successfully."),
                 sentTime: new Date().toLocaleTimeString(),
                 sender: "AI Bot",
             };
