@@ -65,6 +65,7 @@ function App() {
                     element={
                         <Chattibotti
                             language={language}
+                            setLanguage={setLanguage}
                             theme={theme}
                             setTheme={setTheme}
                         />
