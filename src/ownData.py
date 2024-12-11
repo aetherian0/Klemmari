@@ -53,16 +53,17 @@ def chat():
             "usePdfData", False
         )  # Flag to check if using custom data
 
+        with open(
+            "src/default_prompt.json",
+            "r",
+        ) as default_prompt:
+            prompt_data = json.load(default_prompt)
+
         # Define the base messages
         messages = [
             {
                 "role": "system",
-                "content": "You are an AI assistant. If a user's request requires an action, "
-                "always respond with a JSON object in the following format:\n"
-                '{\n  "action": "toggle_theme",\n  "theme": "light" or "dark"\n}\n'
-                "Ensure the keys and values exactly match this format. Do not include any extra text, comments, or explanations. "
-                "If the user's request does not require an action, respond only with plain text."
-                "Answer with the same language as the question is asked.",
+                "content": prompt_data["content"],
             },
             {"role": "user", "content": text},  # User input
         ]
