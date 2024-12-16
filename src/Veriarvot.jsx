@@ -1,6 +1,8 @@
-import React from "react";
+import React, { useState } from "react";
 import { DataGrid } from "@mui/x-data-grid";
 import Box from "@mui/material/Box";
+import TextField from "@mui/material/TextField";
+import "./Veriarvot.css";
 
 function Veriarvot({ language }) {
     const columns = [
@@ -29,9 +31,15 @@ function Veriarvot({ language }) {
             width: 250,
             editable: true,
         },
+        {
+            field: "päivämäärä",
+            headerName: language === "fi" ? "Päivämäärä" : "Date",
+            width: 250,
+            editable: true,
+        },
     ];
 
-    const rows = [
+    const allRows = [
         {
             id: 1,
             verikoe:
@@ -39,6 +47,7 @@ function Veriarvot({ language }) {
             yksikkö: "g/l",
             mitattuArvo: 159,
             viitearvo: language === "fi" ? "Miehet: 134-170" : "Men: 134-170",
+            päivämäärä: "12.12.2023",
         },
         {
             id: 2,
@@ -47,6 +56,7 @@ function Veriarvot({ language }) {
             yksikkö: "%",
             mitattuArvo: 45,
             viitearvo: language === "fi" ? "Miehet: 41-50" : "Men: 41-50",
+            päivämäärä: "12.12.2023",
         },
         {
             id: 3,
@@ -55,6 +65,7 @@ function Veriarvot({ language }) {
             yksikkö: "x10^12/l",
             mitattuArvo: 5.2,
             viitearvo: language === "fi" ? "Miehet: 4.5-5.9" : "Men: 4.5-5.9",
+            päivämäärä: "12.12.2023",
         },
         {
             id: 4,
@@ -65,6 +76,7 @@ function Veriarvot({ language }) {
             yksikkö: "x10^9/l",
             mitattuArvo: 7.5,
             viitearvo: language === "fi" ? "Miehet: 4.0-10.0" : "Men: 4.0-10.0",
+            päivämäärä: "12.12.2023",
         },
         {
             id: 5,
@@ -73,6 +85,7 @@ function Veriarvot({ language }) {
             yksikkö: "mmol/l",
             mitattuArvo: 4.8,
             viitearvo: language === "fi" ? "Alle 5.0" : "Less than 5.0",
+            päivämäärä: "12.12.2023",
         },
         {
             id: 6,
@@ -80,6 +93,7 @@ function Veriarvot({ language }) {
             yksikkö: "mmol/l",
             mitattuArvo: 2.8,
             viitearvo: language === "fi" ? "Alle 3.0" : "Less than 3.0",
+            päivämäärä: "12.12.2023",
         },
         {
             id: 7,
@@ -90,6 +104,7 @@ function Veriarvot({ language }) {
                 language === "fi"
                     ? "Miehet: yli 1.0, Naiset: yli 1.2"
                     : "Men: above 1.0, Women: above 1.2",
+            päivämäärä: "12.12.2023",
         },
         {
             id: 8,
@@ -97,6 +112,7 @@ function Veriarvot({ language }) {
             yksikkö: "mmol/l",
             mitattuArvo: 1.2,
             viitearvo: language === "fi" ? "Alle 1.7" : "Less than 1.7",
+            päivämäärä: "12.12.2023",
         },
         {
             id: 9,
@@ -107,6 +123,7 @@ function Veriarvot({ language }) {
                 language === "fi"
                     ? "Miehet: 60-105, Naiset: 45-90"
                     : "Men: 60-105, Women: 45-90",
+            päivämäärä: "12.12.2023",
         },
         {
             id: 10,
@@ -115,6 +132,7 @@ function Veriarvot({ language }) {
             yksikkö: "mmol/l",
             mitattuArvo: 5.3,
             viitearvo: language === "fi" ? "3.6-5.6" : "3.6-5.6",
+            päivämäärä: "12.12.2023",
         },
         {
             id: 11,
@@ -125,29 +143,39 @@ function Veriarvot({ language }) {
                 language === "fi"
                     ? "Miehet: 30-400, Naiset: 10-150"
                     : "Men: 30-400, Women: 10-150",
+            päivämäärä: "12.12.2023",
         },
     ];
 
-    return (
-        <div
-            style={{
-                display: "flex",
-                flexDirection: "column",
-                alignItems: "center",
-                justifyContent: "flex-start",
-                height: "100vh",
-                textAlign: "center",
-            }}
-        >
-            <h1>{language === "fi" ? "Veriarvot" : "Blood Values"}</h1>
+    const [rows, setRows] = useState(allRows);
+    const [searchTerm, setSearchTerm] = useState("");
 
-            <Box
-                sx={{
-                    height: 400,
-                    width: "80%",
-                    backgroundColor: "white",
-                }}
-            >
+    const handleSearch = (event) => {
+        const value = event.target.value.toLowerCase();
+        setSearchTerm(value);
+        const filteredRows = allRows.filter((row) =>
+            row.verikoe.toLowerCase().includes(value)
+        );
+        setRows(filteredRows);
+    };
+
+    return (
+        <div className="veriarvot-container">
+            <h1>{language === "fi" ? "Veriarvot" : "Blood Values"}</h1>
+            <div className="text-field-container">
+                <TextField
+                    label={
+                        language === "fi"
+                            ? "Hae verikoetta"
+                            : "Search Blood Test"
+                    }
+                    variant="outlined"
+                    value={searchTerm}
+                    onChange={handleSearch}
+                    fullWidth
+                />
+            </div>
+            <Box className="data-grid-container">
                 <DataGrid
                     rows={rows}
                     columns={columns}
