@@ -1,0 +1,24 @@
+.veriarvot-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
+    height: 100vh;
+    text-align: center;
+}
+
+.text-field-container {
+    margin-bottom: 20px;
+    width: 80%;
+    background-color: white;
+}
+
+.text-field-container .MuiOutlinedInput-root {
+    border-radius: 0;
+}
+
+.data-grid-container {
+    height: 400px;
+    width: 80%;
+    background-color: white;
+}
