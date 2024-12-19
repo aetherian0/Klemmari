@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import "@chatscope/chat-ui-kit-styles/dist/default/styles.min.css";
 import {
     MainContainer,
@@ -12,6 +13,8 @@ import Checkbox from "@mui/material/Checkbox";
 import "./Chattibotti.css";
 
 function ChatWindow({ language, setLanguage, theme, setTheme }) {
+    const navigate = useNavigate();
+
     const [messages, setMessages] = useState([
         {
             message:
@@ -62,6 +65,12 @@ function ChatWindow({ language, setLanguage, theme, setTheme }) {
             if (data.action === "toggle_language" && data.language) {
                 // Trigger the language toggle function
                 setLanguage(data.language);
+            }
+
+            if (data.action == "redirect" && data.url) {
+                // Use React Router's navigate for internal navigation
+                navigate(data.url);
+                return; // Stop further execution after redirect
             }
 
             const aiMessage = {
