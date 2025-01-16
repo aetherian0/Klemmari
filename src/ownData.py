@@ -93,7 +93,7 @@ def chat():
         response = client.chat.completions.create(
             model=azure_oai_deployment,
             max_tokens=500,
-            temperature=0.7,
+            temperature=0.6,
             messages=messages,
             extra_body=extra_body,  # Include extra_body only if USE_OWN_DATA is True
         )
