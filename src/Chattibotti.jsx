@@ -10,6 +10,7 @@ import {
 } from "@chatscope/chat-ui-kit-react";
 import FormControlLabel from "@mui/material/FormControlLabel";
 import Checkbox from "@mui/material/Checkbox";
+import ConfirmationPopup from "./ConfirmationPopup";
 import "./Chattibotti.css";
 
 function ChatWindow({ language, setLanguage, theme, setTheme }) {
@@ -26,12 +27,35 @@ function ChatWindow({ language, setLanguage, theme, setTheme }) {
         },
     ]);
 
-    // Tracks the status of the checkbox
     const [isChecked, setIsChecked] = useState(false);
+    const [showPopup, setShowPopup] = useState(false);
+    const [pendingAction, setPendingAction] = useState(null);
+    const [popupMessage, setPopupMessage] = useState("");
 
-    // Change the value of isChecked
     const handleCheckBoxChange = (event) => {
         setIsChecked(event.target.checked);
+    };
+
+    const handleConfirm = () => {
+        if (pendingAction) {
+            const { action, data } = pendingAction;
+
+            if (action === "toggle_theme" && data.theme) {
+                setTheme(data.theme);
+            } else if (action === "toggle_language" && data.language) {
+                setLanguage(data.language);
+            } else if (action === "redirect" && data.url) {
+                navigate(data.url);
+            }
+
+            setPendingAction(null);
+        }
+        setShowPopup(false);
+    };
+
+    const handleCancel = () => {
+        setPendingAction(null);
+        setShowPopup(false);
     };
 
     const handleSend = async (text) => {
@@ -53,24 +77,31 @@ function ChatWindow({ language, setLanguage, theme, setTheme }) {
             });
 
             const data = await response.json();
-
-            // Logging
             console.log(data);
 
-            if (data.action === "toggle_theme" && data.theme) {
-                // Trigger the theme toggle function
-                setTheme(data.theme);
-            }
+            if (data.action) {
+                let confirmMessage = "";
+                if (data.action === "toggle_theme") {
+                    confirmMessage =
+                        language === "fi"
+                            ? "Haluatko vaihtaa teeman?"
+                            : "Do you want to change the theme?";
+                } else if (data.action === "toggle_language") {
+                    confirmMessage =
+                        language === "fi"
+                            ? "Haluatko vaihtaa kieltä?"
+                            : "Do you want to change the language?";
+                } else if (data.action === "redirect") {
+                    confirmMessage =
+                        language === "fi"
+                            ? "Haluatko siirtyä uudelle sivulle?"
+                            : "Do you want to navigate to a new page?";
+                }
 
-            if (data.action === "toggle_language" && data.language) {
-                // Trigger the language toggle function
-                setLanguage(data.language);
-            }
-
-            if (data.action == "redirect" && data.url) {
-                // Use React Router's navigate for internal navigation
-                navigate(data.url);
-                return; // Stop further execution after redirect
+                setPopupMessage(confirmMessage);
+                setPendingAction({ action: data.action, data });
+                setShowPopup(true);
+                return;
             }
 
             const aiMessage = {
@@ -86,13 +117,11 @@ function ChatWindow({ language, setLanguage, theme, setTheme }) {
             setMessages((prevMessages) => [...prevMessages, aiMessage]);
         } catch (error) {
             console.error("Error fetching AI response:", error);
-
             const errorMessage = {
                 message: "Sorry, something went wrong. Please try again later.",
                 sentTime: new Date().toLocaleTimeString(),
                 sender: "AI Bot",
             };
-
             setMessages((prevMessages) => [...prevMessages, errorMessage]);
         }
     };
@@ -126,10 +155,7 @@ function ChatWindow({ language, setLanguage, theme, setTheme }) {
                         <MessageInput
                             placeholder="Type your message here"
                             onSend={handleSend}
-                            style={{
-                                borderRadius: "20px",
-                                marginTop: "10px",
-                            }}
+                            style={{ borderRadius: "20px", marginTop: "10px" }}
                         />
                     </ChatContainer>
                 </MainContainer>
@@ -144,6 +170,14 @@ function ChatWindow({ language, setLanguage, theme, setTheme }) {
                 }
                 label={language === "fi" ? "Käytä PDF dataa" : "Use PDF data"}
             />
+
+            {showPopup && (
+                <ConfirmationPopup
+                    message={popupMessage}
+                    onConfirm={handleConfirm}
+                    onCancel={handleCancel}
+                />
+            )}
         </>
     );
 }
